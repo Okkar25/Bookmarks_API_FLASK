@@ -1,0 +1,21 @@
+{
+  "version": "0.2",
+  "ignorePaths": [],
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": [
+    "backref",
+    "colorama",
+    "dotenv",
+    "flaskenv",
+    "itsdangerous",
+    "jsonify",
+    "Novak",
+    "Okkar",
+    "onupdate",
+    "pycache",
+    "Werkzeug"
+  ],
+  "ignoreWords": [],
+  "import": []
+}

@@ -1,0 +1,8 @@
+// connecting db via shell manually  
+
+flask shell 
+
+from src.database import db
+db.create_all()
+db 
+

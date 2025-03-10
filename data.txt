@@ -1,0 +1,11 @@
+{
+  "username" : "Okkar",
+  "email": "okkaraung123@gmail.com",
+  "password": "okkar123#"
+}
+
+{
+  "username" : "Novak",
+  "email": "novakg123@gmail.com",
+  "password": "novak123#"
+}
