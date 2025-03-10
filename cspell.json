@@ -5,6 +5,7 @@
   "dictionaries": [],
   "words": [
     "backref",
+    "blocklist",
     "colorama",
     "dotenv",
     "flaskenv",
