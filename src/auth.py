@@ -13,7 +13,10 @@ from src.database import db, User
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
-    jwt_required
+    jwt_required,
+    get_jwt_identity,
+    get_jti,
+    get_jwt
 )
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
@@ -109,3 +112,23 @@ def login():
     
     
     return jsonify({"error" : "Wrong Credentials"}), HTTP_401_UNAUTHORIZED
+
+@auth.get("/user")
+@jwt_required()
+def user():
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+    
+    if user:
+        return (
+            jsonify(
+                {
+                    "username" : user.username,
+                    "email" : user.email
+                }
+            ),
+            HTTP_200_OK
+        )
+    
+    return jsonify({"error" : "User not found"}), HTTP_400_BAD_REQUEST
+
