@@ -6,3 +6,28 @@ from src.database import db
 db.create_all()
 db 
 
+
+
+@auth.get("/user")
+@jwt_required()
+def user():
+
+    import pdb 
+    pdb.set_trace()
+    get_jwt_identity()
+
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+    
+    if user:
+        return (
+            jsonify(
+                {
+                    "username" : user.username,
+                    "email" : user.email
+                }
+            ),
+            HTTP_200_OK
+        )
+    
+    return jsonify({"error" : "User not found"}), HTTP_400_BAD_REQUEST

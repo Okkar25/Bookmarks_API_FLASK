@@ -9,3 +9,9 @@
   "email": "novakg123@gmail.com",
   "password": "novak123#"
 }
+
+{
+  "username" : "Jason",
+  "email": "jasonmars123@gmail.com",
+  "password": "jason123$#@"
+}

@@ -16,30 +16,35 @@ def create_app(test_config=None):
     if test_config is None:
         app.config.from_mapping(
             SECRET_KEY=os.environ.get("SECRET_KEY"), 
-            SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI") 
+            SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
+            SQLALCHEMY_TRACK_MODIFICATIONS=False,
+            JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY')
         )
     
     else:
         app.config.from_mapping(test_config)
 
-    
+
     # db connect
     db.app = app
     db.init_app(app)
     
     # initialized JWT
     jwt = JWTManager(app)
-    
+
+
     # Add a callback to check if a token is revoked
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
         jti = jwt_payload["jti"]
         return jti in revoked_tokens
-    
+
+
     # blueprints
     app.register_blueprint(auth)
     app.register_blueprint(bookmarks)
-    
+
+
     @app.errorhandler(HTTP_404_NOT_FOUND)
     def handle_404(e):
         return jsonify({"error" : "Not Found"}), HTTP_404_NOT_FOUND
@@ -53,7 +58,6 @@ def create_app(test_config=None):
                 }
             )
         )
-        
 
     return app
 
