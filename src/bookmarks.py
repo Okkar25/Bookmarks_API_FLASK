@@ -5,7 +5,8 @@ from src.database import db, Bookmark
 from src.constants.http_status_codes import (
     HTTP_400_BAD_REQUEST, 
     HTTP_409_CONFLICT,
-    HTTP_201_CREATED
+    HTTP_201_CREATED,
+    HTTP_200_OK
 )
 
 bookmarks = Blueprint("bookmarks", __name__, url_prefix="/api/v1/bookmarks")
@@ -45,4 +46,36 @@ def handle_bookmarks():
         }), HTTP_201_CREATED
     
     else:
-        pass 
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 5, type=int)
+        
+        bookmarks = Bookmark.query.filter_by(user_id=current_user_id).paginate(page=page, per_page=per_page)
+
+        data = []
+        
+        for bookmark in bookmarks.items:
+            data.append({
+                "id" : bookmark.id,
+                "body" : bookmark.body,
+                "url" : bookmark.url,
+                "short_url" : bookmark.short_url,
+                "visit" : bookmark.visits,
+                "created_at" : bookmark.created_at,
+                "updated_at" : bookmark.updated_at
+            })
+        
+        meta = {
+            "page" : bookmarks.page,
+            "pages" : bookmarks.pages,
+            "total_count" : bookmarks.total,
+            "prev_page" : bookmarks.prev_num,
+            "next_page" : bookmarks.next_num,
+            "has_prev" : bookmarks.has_prev, 
+            "has_next" : bookmarks.has_next, 
+        }
+        
+        return jsonify({
+            "data" : data,
+            "meta" : meta
+        }), HTTP_200_OK
+        
