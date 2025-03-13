@@ -7,7 +7,8 @@ from src.constants.http_status_codes import (
     HTTP_409_CONFLICT,
     HTTP_201_CREATED,
     HTTP_200_OK,
-    HTTP_404_NOT_FOUND
+    HTTP_404_NOT_FOUND,
+    HTTP_204_NO_CONTENT
 )
 
 bookmarks = Blueprint("bookmarks", __name__, url_prefix="/api/v1/bookmarks")
@@ -27,7 +28,7 @@ def handle_bookmarks():
                 "error" : "Please enter a valid url !"
             }), HTTP_400_BAD_REQUEST
         
-        if Bookmark.query.filter_by(body=body).first():
+        if Bookmark.query.filter_by(url=url).first():
             return jsonify({
                 "error" : "This url already exists !"
             }), HTTP_409_CONFLICT
@@ -101,4 +102,21 @@ def get_bookmark(id):
         "updated_at" : bookmark.updated_at
     }), HTTP_200_OK
 
+@bookmarks.delete("/<int:id>")
+@jwt_required()
+def delete_bookmark(id):
+    current_user_id = get_jwt_identity()
+    
+    bookmark_to_delete = Bookmark.query.filter_by(user_id=current_user_id, id=id).first()
+    
+    if not bookmark_to_delete:
+        return jsonify({"message" : "Item not found !"}), HTTP_404_NOT_FOUND
+    
+    db.session.delete(bookmark_to_delete)
+    db.session.commit()
+    
+    return jsonify({
+        "message" : "Bookmark deleted successfully."
+    }) , HTTP_204_NO_CONTENT
+    
 
