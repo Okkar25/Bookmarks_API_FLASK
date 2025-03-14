@@ -8,7 +8,7 @@ from src.constants.http_status_codes import (
     HTTP_201_CREATED,
     HTTP_200_OK,
     HTTP_404_NOT_FOUND,
-    HTTP_204_NO_CONTENT
+    HTTP_204_NO_CONTENT 
 )
 
 bookmarks = Blueprint("bookmarks", __name__, url_prefix="/api/v1/bookmarks")
@@ -120,3 +120,39 @@ def delete_bookmark(id):
     }) , HTTP_204_NO_CONTENT
     
 
+@bookmarks.put("/<:id>")
+@bookmarks.patch("/<:id>")
+@jwt_required()
+def edit_bookmark(id):
+    current_user_id = get_jwt_identity()
+    
+    bookmark_to_edit = Bookmark.query.filter_by(user_id=current_user_id, id=id).first()
+
+    if not bookmark_to_edit:
+        return jsonify({"message" : "Item not found !"}), HTTP_404_NOT_FOUND
+    
+    url = request.get_json.get("url", "")
+    body = request.get_json.get("body", "")
+
+    if not validators.url(url):
+        return jsonify({
+            "error" : "Please enter a valid url !"
+        }), HTTP_400_BAD_REQUEST
+    
+    bookmark_to_edit.url = url 
+    bookmark_to_edit.body = body
+    
+    db.session.commit() 
+
+    return jsonify({
+        "id" : bookmark_to_edit.id,
+        "body" : bookmark_to_edit.body,
+        "url" : bookmark_to_edit.url,
+        "short_url" : bookmark_to_edit.short_url,
+        "visit" : bookmark_to_edit.visits,
+        "created_at" : bookmark_to_edit.created_at,
+        "updated_at" : bookmark_to_edit.updated_at
+    })
+
+
+    
