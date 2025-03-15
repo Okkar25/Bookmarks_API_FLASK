@@ -20,8 +20,8 @@ def handle_bookmarks():
     
     if request.method == "POST":
         
-        body = request.get_json.get("body", "")
-        url = request.get_json.get("url", "")
+        body = request.get_json().get("body", "")
+        url = request.get_json().get("url", "")
 
         if not validators.url(url):
             return jsonify({
@@ -120,8 +120,8 @@ def delete_bookmark(id):
     }) , HTTP_204_NO_CONTENT
     
 
-@bookmarks.put("/<:id>")
-@bookmarks.patch("/<:id>")
+@bookmarks.put("/<int:id>")
+@bookmarks.patch("/<int:id>")
 @jwt_required()
 def edit_bookmark(id):
     current_user_id = get_jwt_identity()
@@ -131,8 +131,8 @@ def edit_bookmark(id):
     if not bookmark_to_edit:
         return jsonify({"message" : "Item not found !"}), HTTP_404_NOT_FOUND
     
-    url = request.get_json.get("url", "")
-    body = request.get_json.get("body", "")
+    url = request.get_json().get("url", "")
+    body = request.get_json().get("body", "")
 
     if not validators.url(url):
         return jsonify({
@@ -152,7 +152,7 @@ def edit_bookmark(id):
         "visit" : bookmark_to_edit.visits,
         "created_at" : bookmark_to_edit.created_at,
         "updated_at" : bookmark_to_edit.updated_at
-    })
+    }), HTTP_200_OK
     
 @bookmarks.get("/stats")
 @jwt_required()
