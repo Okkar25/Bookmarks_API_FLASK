@@ -1,6 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 import os
-from src.database import db
+from src.database import db, Bookmark
 from src.auth import auth, revoked_tokens
 from src.bookmarks import bookmarks
 from flask_jwt_extended import JWTManager
@@ -31,7 +31,20 @@ def create_app(test_config=None):
     
     # initialized JWT
     jwt = JWTManager(app)
-
+    
+    # blueprints
+    app.register_blueprint(auth)
+    app.register_blueprint(bookmarks)
+    
+    @app.get("/<short_url>")
+    def redirect_to_url(short_url):
+        bookmark = Bookmark.query.filter_by(short_url=short_url).first_or_404()
+        
+        if bookmark:
+            bookmark.visits += 1 
+            db.session.commit()
+            return redirect(bookmark.url)
+            
 
     # Add a callback to check if a token is revoked
     @jwt.token_in_blocklist_loader
@@ -40,9 +53,8 @@ def create_app(test_config=None):
         return jti in revoked_tokens
 
 
-    # blueprints
-    app.register_blueprint(auth)
-    app.register_blueprint(bookmarks)
+    
+    
 
 
     @app.errorhandler(HTTP_404_NOT_FOUND)

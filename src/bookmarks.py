@@ -10,11 +10,12 @@ from src.constants.http_status_codes import (
     HTTP_404_NOT_FOUND,
     HTTP_204_NO_CONTENT 
 )
+from sqlalchemy import exists
 
 bookmarks = Blueprint("bookmarks", __name__, url_prefix="/api/v1/bookmarks")
 
 @bookmarks.route("/", methods=["POST", "GET"])
-@jwt_required
+@jwt_required()
 def handle_bookmarks():
     current_user_id = get_jwt_identity()
     
@@ -23,13 +24,19 @@ def handle_bookmarks():
         body = request.get_json().get("body", "")
         url = request.get_json().get("url", "")
 
-        if not validators.url(url):
+        if url and not validators.url(url):
             return jsonify({
                 "error" : "Please enter a valid url !"
             }), HTTP_400_BAD_REQUEST
         
-        if Bookmark.query.filter_by(url=url).first():
+        if url and Bookmark.query.filter_by(url=url).first():
             return jsonify({
+                "error" : "This url already exists !"
+            }), HTTP_409_CONFLICT
+        
+        # new method - exits 
+        if db.session.query(exists().where(Bookmark.url == url)).scalar():
+             return jsonify({
                 "error" : "This url already exists !"
             }), HTTP_409_CONFLICT
         
@@ -102,6 +109,7 @@ def get_bookmark(id):
         "updated_at" : bookmark.updated_at
     }), HTTP_200_OK
 
+
 @bookmarks.delete("/<int:id>")
 @jwt_required()
 def delete_bookmark(id):
@@ -118,7 +126,7 @@ def delete_bookmark(id):
     return jsonify({
         "message" : "Bookmark deleted successfully."
     }) , HTTP_204_NO_CONTENT
-    
+
 
 @bookmarks.put("/<int:id>")
 @bookmarks.patch("/<int:id>")
@@ -139,8 +147,11 @@ def edit_bookmark(id):
             "error" : "Please enter a valid url !"
         }), HTTP_400_BAD_REQUEST
     
-    bookmark_to_edit.url = url 
-    bookmark_to_edit.body = body
+    if url:
+        bookmark_to_edit.url = url 
+    
+    if bookmark_to_edit:    
+        bookmark_to_edit.body = body
     
     db.session.commit() 
 
@@ -153,7 +164,8 @@ def edit_bookmark(id):
         "created_at" : bookmark_to_edit.created_at,
         "updated_at" : bookmark_to_edit.updated_at
     }), HTTP_200_OK
-    
+
+
 @bookmarks.get("/stats")
 @jwt_required()
 def get_stats():
@@ -176,4 +188,5 @@ def get_stats():
     return jsonify({
         "data" : data
     }), HTTP_200_OK
-    
+
+
