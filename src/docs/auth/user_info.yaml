@@ -1,0 +1,31 @@
+User Info
+---
+tags:
+  - Authentication
+
+parameters:
+  - name: Authorization
+    description: Bearer token required for authentication
+    in: header
+    required: true
+    schema:
+      type: string
+      example: "Bearer <ACCESS_TOKEN>"
+
+responses:
+  200:
+    description: When user details are successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              example: "john_doe"
+            email:
+              type: string
+              example: "john@example.com"
+
+  400:
+    description: User not found

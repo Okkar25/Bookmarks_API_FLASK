@@ -1,0 +1,28 @@
+Refresh Token
+---
+tags:
+  - Authentication
+
+parameters:
+  - name: Authorization
+    description: Bearer refresh token required
+    in: header
+    required: true
+    schema:
+      type: string
+      example: "Bearer <REFRESH_TOKEN>"
+
+responses:
+  200:
+    description: When access token is successfully refreshed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            access:
+              type: string
+              example: "newly_generated_jwt_token"
+
+  401:
+    description: Invalid or expired refresh token

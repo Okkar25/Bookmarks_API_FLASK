@@ -18,6 +18,7 @@ from flask_jwt_extended import (
     get_jti,
     get_jwt
 )
+from flasgger import swag_from
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
@@ -26,6 +27,7 @@ revoked_tokens = set() # In-memory token blacklist
 
 # @auth.route("/register", methods=["POST", "GET"])
 @auth.post("/register")
+@swag_from("./docs/auth/register.yaml")
 def register():
     username = request.json["username"] # request.form.get()
     email = request.json["email"]
@@ -85,6 +87,7 @@ def register():
     )
 
 @auth.post("login")
+@swag_from("./docs/auth/login.yaml")
 def login():
     email = request.json.get("email", "")
     password = request.json.get("password", "")

@@ -1,0 +1,28 @@
+User Logout
+---
+tags:
+  - Authentication
+
+parameters:
+  - name: Authorization
+    description: Bearer token required to logout
+    in: header
+    required: true
+    schema:
+      type: string
+      example: "Bearer <ACCESS_TOKEN>"
+
+responses:
+  200:
+    description: When user is successfully logged out
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Successfully logged out"
+
+  401:
+    description: Unauthorized request

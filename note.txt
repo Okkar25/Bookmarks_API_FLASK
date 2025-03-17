@@ -105,3 +105,41 @@ responses:
 
 
 
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+  - name: token
+    in: header
+    required: true
+    type: string
+
+
+Here, the request requires two parameters:
+
+body (in request body)
+token (in headers)
+
+
+=================================================================================================
+
+
+required:
+  - "email"
+  - "password"
+
+The dash (-) here means that required: is a list of required properties.
+It tells the API that both email and password must be included in the request body.
+
+
+{
+  "email": "user@gmail.com",
+  "password": "mypassword123"
+}
+
+{
+  "email": "user@gmail.com"
+}
+
