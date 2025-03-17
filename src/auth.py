@@ -120,6 +120,7 @@ def login():
     return jsonify({"error" : "Wrong Credentials"}), HTTP_401_UNAUTHORIZED
 
 @auth.get("/user")
+@swag_from("./docs/auth/user_info.yaml")
 @jwt_required()
 def user():
     user_id = get_jwt_identity()
@@ -140,6 +141,7 @@ def user():
 
 # @auth.post("/token/refresh")
 @auth.get("/token/refresh")
+@swag_from("./docs/auth/refresh_token.yaml")
 @jwt_required(refresh=True)
 def refresh_users_token():
     identity = get_jwt_identity()
@@ -148,6 +150,7 @@ def refresh_users_token():
     return jsonify({"access" : access}), HTTP_200_OK
 
 @auth.post("/logout")
+@swag_from("./docs/auth/logout.yaml")
 @jwt_required()
 def logout():
     jti = get_jwt()["jti"]

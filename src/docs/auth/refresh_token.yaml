@@ -10,7 +10,7 @@ parameters:
     required: true
     schema:
       type: string
-      example: "Bearer <REFRESH_TOKEN>"
+      example: "Bearer refresh_token"
 
 responses:
   200:

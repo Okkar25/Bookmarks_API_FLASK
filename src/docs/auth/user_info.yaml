@@ -10,7 +10,7 @@ parameters:
     required: true
     schema:
       type: string
-      example: "Bearer <ACCESS_TOKEN>"
+      example: "Bearer your_jwt_token"
 
 responses:
   200:
