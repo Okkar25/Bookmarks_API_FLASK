@@ -47,5 +47,61 @@ GET /bookmarks?page=2&per_page=10
 }
 
 
+For Swagger 
+
+
 from flasgger import Swagger, swag_from
+from src.config.swagger import swagger_config, template
+
+app.config.from_mapping(
+    SECRET_KEY=os.environ.get("SECRET_KEY"), 
+    SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,
+    JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY'),
+    
+    SWAGGER = {
+        "title" : "Bookmarks API",
+        "uiversion" : 3
+    }
+)
+
+Swagger(app, config=swagger_config, template=template)
+
+
+
+YAML 
+
+tags - to group the urls in documentation 
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+short url yaml file 
+
+Redirect to a s short url 
+
+---
+
+tags:
+  - Bookmarks
+
+parameters:
+  - in: path
+    name: short_url
+    required: true
+
+responses:
+  302:
+    description: Redirects to the original link
+  
+  404:
+    description: Record was not found 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
 

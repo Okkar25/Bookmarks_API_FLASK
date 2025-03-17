@@ -20,6 +20,7 @@
     "pycache",
     "rpds",
     "setuptools",
+    "SQLALCHEMY",
     "uiversion",
     "Werkzeug"
   ],

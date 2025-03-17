@@ -40,5 +40,6 @@ swagger_config = {
     ],
     "static_url_path": "/flasgger_static",
     "swagger_ui": True,
-    "specs_route": "/"
+    "specs_route": "/",
+    # "specs_route": "/swagger"
 }
