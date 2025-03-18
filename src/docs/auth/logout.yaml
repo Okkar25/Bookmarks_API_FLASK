@@ -1,16 +1,21 @@
-User Logout
+User Log Out
+
 ---
+
 tags:
   - Authentication
 
-parameters:
-  - name: Authorization
-    description: Bearer token required to logout
-    in: header
-    required: true
-    schema:
-      type: string
-      example: "Bearer your_jwt_token"
+# parameters:
+#   - name: Authorization
+#     description: Bearer token required to logout
+#     in: header
+#     required: true
+#     schema:
+#       type: string
+#       example: "Bearer your_jwt_token"
+
+security:
+  - Bearer: []
 
 responses:
   200:

@@ -86,7 +86,7 @@ def register():
         HTTP_201_CREATED
     )
 
-@auth.post("login")
+@auth.post("/login")
 @swag_from("./docs/auth/login.yaml")
 def login():
     email = request.json.get("email", "")
@@ -120,8 +120,8 @@ def login():
     return jsonify({"error" : "Wrong Credentials"}), HTTP_401_UNAUTHORIZED
 
 @auth.get("/user")
-@swag_from("./docs/auth/user_info.yaml")
 @jwt_required()
+@swag_from("./docs/auth/user_info.yaml")
 def user():
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
@@ -139,10 +139,10 @@ def user():
     
     return jsonify({"error" : "User not found"}), HTTP_400_BAD_REQUEST
 
-# @auth.post("/token/refresh")
-@auth.get("/token/refresh")
-@swag_from("./docs/auth/refresh_token.yaml")
+# @auth.get("/token/refresh")
+@auth.post("/token/refresh")
 @jwt_required(refresh=True)
+@swag_from("./docs/auth/refresh_token.yaml")
 def refresh_users_token():
     identity = get_jwt_identity()
     access = create_access_token(identity=identity)
@@ -150,8 +150,8 @@ def refresh_users_token():
     return jsonify({"access" : access}), HTTP_200_OK
 
 @auth.post("/logout")
-@swag_from("./docs/auth/logout.yaml")
 @jwt_required()
+@swag_from("./docs/auth/logout.yaml")
 def logout():
     jti = get_jwt()["jti"]
     revoked_tokens.add(jti) # Add the token to the blocklist

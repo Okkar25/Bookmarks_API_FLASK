@@ -1,0 +1,48 @@
+GET stats about bookmarks
+---
+tags:
+  - Bookmarks
+
+# parameters:
+#   - name: Authorization
+#     description: Bearer token required for authentication
+#     in: header
+#     required: true
+#     schema:
+#       type: string
+#       example: "Bearer your_jwt_token"
+
+security:
+  - Bearer: []
+
+responses:
+  200:
+    description: Successfully retrieved user bookmarks stats
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+
+                  url:
+                    type: string
+                    example: "https://example.com"
+
+                  short_url:
+                    type: string
+                    example: "https://short.ly/abc123"
+                    
+                  visits:
+                    type: integer
+                    example: 25
+
+  401:
+    description: Fails to get items due to authentication error

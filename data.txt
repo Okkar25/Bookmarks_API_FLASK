@@ -16,4 +16,12 @@
   "password": "jason123$#@"
 }
 
+{
+  "email": "gary123d@gmail.com",
+  "password": "Close123@#$",
+  "username": "Gary25"
+}
+
+
+
 https://okkar-movie-sync.vercel.app/

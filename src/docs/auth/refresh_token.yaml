@@ -3,14 +3,26 @@ Refresh Token
 tags:
   - Authentication
 
-parameters:
-  - name: Authorization
-    description: Bearer refresh token required
-    in: header
-    required: true
-    schema:
-      type: string
-      example: "Bearer refresh_token"
+# parameters:
+#   - name: Authorization
+#     description: Bearer refresh token required
+#     in: header
+#     required: true
+#     schema:
+#       type: string
+#       example: "Bearer refresh_token"
+
+requestBody:
+  description: Refresh token required to generate a new access token
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          refresh:
+            type: string
+            example: "your_refresh_token"
 
 responses:
   200:
