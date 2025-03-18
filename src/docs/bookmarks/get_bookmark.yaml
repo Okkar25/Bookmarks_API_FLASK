@@ -1,0 +1,45 @@
+Get the Specific Bookmark of the User
+
+---
+
+get:
+  tags:
+    - Bookmarks
+  summary: Get a single bookmark by ID
+  description: Retrieve a bookmark by its ID for the currently logged-in user.
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: The ID of the bookmark to retrieve
+      schema:
+        type: integer
+
+  responses:
+    200:
+      description: The bookmark details
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              body:
+                type: string
+              url:
+                type: string
+              short_url:
+                type: string
+              visit:
+                type: integer
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+    404:
+      description: Bookmark not found
+    401:
+      description: Unauthorized

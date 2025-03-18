@@ -1,0 +1,57 @@
+Edit the Specific Bookmark
+---
+put:
+  tags:
+    - Bookmarks
+  summary: Edit a bookmark by ID
+  description: Edits the bookmark URL and body for the currently logged-in user.
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: The ID of the bookmark to edit
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            body:
+              type: string
+              description: Updated description or label for the bookmark
+            url:
+              type: string
+              description: Updated URL for the bookmark
+  responses:
+    200:
+      description: Bookmark updated successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              body:
+                type: string
+              url:
+                type: string
+              short_url:
+                type: string
+              visit:
+                type: integer
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+    400:
+      description: Invalid URL or body
+    404:
+      description: Bookmark not found
+    401:
+      description: Unauthorized

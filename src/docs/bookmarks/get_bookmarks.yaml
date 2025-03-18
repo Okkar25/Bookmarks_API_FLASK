@@ -1,0 +1,60 @@
+Get All Bookmarks of the Logged-In User
+
+---
+
+get:
+  tags:
+    - Bookmarks
+  summary: Get all bookmarks
+  description: Retrieve all bookmarks for the currently logged-in user.
+  
+  responses:
+    200:
+      description: A list of bookmarks for the user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    body:
+                      type: string
+                    url:
+                      type: string
+                    short_url:
+                      type: string
+                    visit:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+              meta:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+                  total_count:
+                    type: integer
+                  prev_page:
+                    type: integer
+                  next_page:
+                    type: integer
+                  has_prev:
+                    type: boolean
+                  has_next:
+                    type: boolean
+    400:
+      description: Invalid request
+    401:
+      description: Unauthorized
