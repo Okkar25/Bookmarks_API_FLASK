@@ -25,3 +25,11 @@
 
 
 https://okkar-movie-sync.vercel.app/
+
+
+
+
+{
+  "email": "jasonmars123@gmail.com",
+  "password": "jason123$#@"
+}

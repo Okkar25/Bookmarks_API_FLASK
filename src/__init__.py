@@ -47,7 +47,7 @@ def create_app(test_config=None):
     #Swagger
     Swagger(app, config=swagger_config, template=template)
     
-    @app.get("/<short_url>")
+    @app.get("/api/v1/<short_url>")
     @swag_from("./docs/short_url.yaml")
     def redirect_to_url(short_url):
         bookmark = Bookmark.query.filter_by(short_url=short_url).first_or_404()
@@ -55,7 +55,14 @@ def create_app(test_config=None):
         if bookmark:
             bookmark.visits += 1 
             db.session.commit()
-            return redirect(bookmark.url)
+            
+            redirect(bookmark.url)
+        
+            return jsonify({
+                "original_url": bookmark.url,
+                "short_url": short_url,
+                "message": "Redirect manually to the original URL."
+            }), 200  # Return 200 OK instead of 302
  
  
     # Add a callback to check if a token is revoked
