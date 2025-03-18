@@ -57,7 +57,7 @@ def create_app(test_config=None):
             db.session.commit()
             
             # Check if it's from Swagger or Postman using a query parameter (or User-Agent)
-            if "swagger" in request.user_agent.string.lower() or "postman" in request.user_agent.string.lower() or "return_json" in request.args:
+            if request.headers.get('Accept') == 'application/json':
                 # Return JSON response with original URL
                 return jsonify({
                     "original_url": bookmark.url,

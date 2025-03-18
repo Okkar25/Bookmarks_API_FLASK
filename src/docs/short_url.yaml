@@ -23,6 +23,25 @@ responses:
         schema:
           type: string
           example: "https://example.com"
+
+  200:
+    description: Returns the original URL as JSON
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            original_url:
+              type: string
+              example: "https://example.com"
+              
+            short_url:
+              type: string
+              example: "cR3g6L"
+
+            message:
+              type: string
+              example: "Redirect manually to the original URL."
   
   404:
     description: Record was not found 
