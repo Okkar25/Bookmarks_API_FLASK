@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, redirect
+from flask import Flask, jsonify, redirect, request
 import os
 from src.database import db, Bookmark
 from src.auth import auth, revoked_tokens
@@ -56,13 +56,17 @@ def create_app(test_config=None):
             bookmark.visits += 1 
             db.session.commit()
             
-            redirect(bookmark.url)
-        
-            return jsonify({
-                "original_url": bookmark.url,
-                "short_url": short_url,
-                "message": "Redirect manually to the original URL."
-            }), 200  # Return 200 OK instead of 302
+            # Check if it's from Swagger or Postman using a query parameter (or User-Agent)
+            if "swagger" in request.user_agent.string.lower() or "postman" in request.user_agent.string.lower() or "return_json" in request.args:
+                # Return JSON response with original URL
+                return jsonify({
+                    "original_url": bookmark.url,
+                    "short_url": short_url,
+                    "message": "Redirect manually to the original URL."
+                }), 200
+
+            # Perform the redirect if it's not Swagger/Postman
+            return redirect(bookmark.url)
  
  
     # Add a callback to check if a token is revoked
