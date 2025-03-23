@@ -133,14 +133,7 @@ def delete_bookmark(id):
     
     return jsonify({
         "message" : "Bookmark deleted successfully."
-    }) , HTTP_204_NO_CONTENT
-
-
-
-
-
-
-
+    }) , HTTP_200_OK
 
 @bookmarks.put("/<int:id>")
 @jwt_required()
