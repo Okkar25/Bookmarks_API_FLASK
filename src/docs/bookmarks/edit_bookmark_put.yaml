@@ -1,4 +1,4 @@
-Create a new Bookmark
+Edit a Bookmark (PUT)
 ---
 tags:
   - Bookmarks
@@ -7,25 +7,33 @@ security:
   - Bearer: []
 
 parameters:
+  - in: path
+    name: id
+    description: The ID of the bookmark to edit
+    required: true
+    schema:
+      type: integer
+      example: 1
+
   - in: body
     name: body
-    description: Description of the bookmark
+    description: Updated details of the bookmark
     required: true
     schema:
       type: object
       properties:
         body:
           type: string
-          description: A description of the bookmark
-          example: "My favorite website"
+          description: Updated description for the bookmark
+          example: "Updated description"
         url:
           type: string
-          description: The URL of the bookmark
-          example: "https://example.com"
+          description: Updated URL for the bookmark
+          example: "https://newexample.com"
 
 responses:
-  201:
-    description: Bookmark created successfully
+  200:
+    description: Bookmark edited successfully
     content:
       application/json:
         schema:
@@ -36,10 +44,10 @@ responses:
               example: 1
             body:
               type: string
-              example: "My favorite website"
+              example: "Updated description"
             url:
               type: string
-              example: "https://example.com"
+              example: "https://newexample.com"
             short_url:
               type: string
               example: "cR3g6L"
@@ -66,13 +74,13 @@ responses:
               type: string
               example: "Please enter a valid url !"
 
-  409:
-    description: URL already exists
+  404:
+    description: Bookmark not found
     content:
       application/json:
         schema:
           type: object
           properties:
-            error:
+            message:
               type: string
-              example: "This url already exists !"
+              example: "Item not found !"

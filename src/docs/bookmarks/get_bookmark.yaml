@@ -1,45 +1,59 @@
-Get the Specific Bookmark of the User
-
+Get a specific Bookmark by ID
 ---
+tags:
+  - Bookmarks
 
-get:
-  tags:
-    - Bookmarks
-  summary: Get a single bookmark by ID
-  description: Retrieve a bookmark by its ID for the currently logged-in user.
-  parameters:
-    - in: path
-      name: id
-      required: true
-      description: The ID of the bookmark to retrieve
-      schema:
-        type: integer
+security:
+  - Bearer: []
 
-  responses:
-    200:
-      description: The bookmark details
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              body:
-                type: string
-              url:
-                type: string
-              short_url:
-                type: string
-              visit:
-                type: integer
-              created_at:
-                type: string
-                format: date-time
-              updated_at:
-                type: string
-                format: date-time
-    404:
-      description: Bookmark not found
-    401:
-      description: Unauthorized
+parameters:
+  - in: path
+    name: id
+    description: The ID of the bookmark
+    required: true
+    schema:
+      type: integer
+      example: 1
+
+responses:
+  200:
+    description: Bookmark details
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            body:
+              type: string
+              example: "My favorite website"
+            url:
+              type: string
+              example: "https://example.com"
+            short_url:
+              type: string
+              example: "cR3g6L"
+            visit:
+              type: integer
+              example: 0
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-01T12:00:00"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-01T12:00:00"
+
+  404:
+    description: Bookmark not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Item not found !"

@@ -1,24 +1,38 @@
-Delete Bookmark 
-
 ---
+tags:
+  - Bookmarks
 
-delete:
-  tags:
-    - Bookmarks
-  summary: Delete a bookmark by ID
-  description: Deletes a specific bookmark by its ID for the currently logged-in user.
-  
-  parameters:
-    - in: path
-      name: id
-      required: true
-      description: The ID of the bookmark to delete
-      schema:
-        type: integer
-  responses:
-    204:
-      description: Bookmark deleted successfully
-    404:
-      description: Bookmark not found
-    401:
-      description: Unauthorized
+security:
+  - Bearer: []
+
+parameters:
+  - in: path
+    name: id
+    description: The ID of the bookmark to delete
+    required: true
+    schema:
+      type: integer
+      example: 1
+
+responses:
+  200:
+    description: Bookmark deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Bookmark deleted successfully"
+
+  404:
+    description: Bookmark not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Item not found !"
