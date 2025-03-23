@@ -9,9 +9,9 @@ This project is a Flask-based REST API that allows users to manage bookmarks wit
 
 ## Sample  
 
-![Image](https://github.com/user-attachments/assets/60ce9982-3356-46dc-83fb-33f62acc6835)
-![Image](https://github.com/user-attachments/assets/91ab989c-37ca-41d4-90e6-4ba9466fb95c)
-![Image](https://github.com/user-attachments/assets/135b929a-a7ff-4e31-8a55-064765a78195)  
+![Image](https://github.com/user-attachments/assets/470db431-022f-41f0-99f2-9a1dca1b1bf2)
+![Image](https://github.com/user-attachments/assets/76fd0cfb-8571-4cb5-9e73-9d2776e2b90e)
+![Image](https://github.com/user-attachments/assets/9bec6f4a-a739-41d6-9e3c-1faf34fce9f4) 
 
 ## Table of Contents  
 
@@ -66,10 +66,10 @@ Visit `http://localhost:8000` in your browser or use Postman/ThunderClient to in
 
 ## API Endpoints  
 
- **POST** `/api/v1/auth/login` - User Log In.  
- **POST** `/api/v1/auth/logout` - User Log Out.  
- **POST** `/api/v1/auth/register` - User Registration.  
- **POST** `/api/v1/auth/token/refresh` - Refresh Token.  
+- **POST** `/api/v1/auth/login` - User Log In.  
+- **POST** `/api/v1/auth/logout` - User Log Out.  
+- **POST** `/api/v1/auth/register` - User Registration.  
+- **POST** `/api/v1/auth/token/refresh` - Refresh Token.  
 - **GET** `/api/v1/auth/user` - Retrieve the User's Info.  
 
 - **GET** `/api/v1/bookmarks` - Retrieve all bookmarks.  
