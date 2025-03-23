@@ -11,17 +11,20 @@ from src.constants.http_status_codes import (
 from flasgger import Swagger, swag_from
 # swag_from enable us create yaml file to describe our spec 
 from src.config.swagger import swagger_config, template
+from dotenv import load_dotenv
 
 def create_app(test_config=None):
+    
+    load_dotenv()
     
     app = Flask(__name__, instance_relative_config=True)
     
     if test_config is None:
         app.config.from_mapping(
-            SECRET_KEY=os.environ.get("SECRET_KEY"), 
+            SECRET_KEY=os.environ.get("SECRET_KEY", "default_secret_key"), 
             SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
-            JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY'),
+            JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY', "default_jwt_secret_key"),
             
             SWAGGER = {
                 "title" : "Bookmarks API",

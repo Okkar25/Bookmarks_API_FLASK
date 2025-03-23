@@ -12,6 +12,7 @@
     "flasgger",
     "flaskenv",
     "garyhudson",
+    "gunicorn",
     "itsdangerous",
     "jsonify",
     "jsonschema",
